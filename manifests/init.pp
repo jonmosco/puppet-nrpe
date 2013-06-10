@@ -2,5 +2,5 @@
 # Nagios monitoring
 #
 class nrpe {
-  include nrpe::install, nrpe::user
+  include nrpe::install, nrpe::services, nrpe::user
 }
