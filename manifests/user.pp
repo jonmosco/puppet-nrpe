@@ -1,3 +1,5 @@
+# Add nagios user and groups
+#
 # NRPE user
 #
 class nrpe::user {

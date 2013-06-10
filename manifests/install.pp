@@ -19,8 +19,10 @@
 # - Move plugin install to this manifest [DONE 3/7/13]
 # - Restart xinetd at the proper time [DONE 3/8/13]
 # - Move RPM to a local repository
+# - Make /etc/xinet.d/nrpe take the nagios server as a paramater [DONE 6/9/2013]
 #
-class nrpe::install {
+class nrpe::install ( nagois_server )
+{
   if $::osfamily == 'RedHat' {
 
     package { 'nagios-plugins-1.4.16-1.x86_64':
@@ -88,12 +90,13 @@ class nrpe::install {
       mode   => '0644',
     }
 
+    # Template and paramaterized class
     file { 'nrpe':
       path      => '/etc/xinetd.d/nrpe',
-      source    => 'puppet:///modules/nrpe/nrpe_xinetd',
       owner     => 'root',
       group     => 'root',
       mode      => '0644',
+      content   => template('nrpe/xinetd.erb'),
       require   => Class['rhelbase::install'],
       subscribe => File['nrpe.cfg'],
     }
